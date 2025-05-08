@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CSS Animation & localStorage Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.light {
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+    body.dark {
+      background-color: #1e1e1e;
+      color: #ffffff;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-right: 10px;
+      cursor: pointer;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      transition: transform 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.1); /* Button zoom animation */
+    }
+
+    #box {
+      width: 100px;
+      height: 100px;
+      background-color: coral;
+      margin-top: 20px;
+    }
+
+    .animated {
+      animation: moveRight 1s forwards;
+    }
+
+    @keyframes moveRight {
+      to {
+        transform: translateX(200px);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>CSS Animation & localStorage Demo</h2>
+
+  <button onclick="animateBox()">Animate Box</button>
+  <button onclick="toggleTheme()">Toggle Theme</button>
+
+  <div id="box"></div>
+
+  <script>
+    // Animate the box when the button is clicked
+    function animateBox() {
+      const box = document.getElementById('box');
+      box.classList.remove('animated'); // reset animation
+      void box.offsetWidth; // force reflow to restart animation
+      box.classList.add('animated');
+    }
+
+    // Save theme to localStorage and apply it
+    function toggleTheme() {
+      const currentTheme = document.body.classList.contains('dark') ? 'dark' : 'light';
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      document.body.className = newTheme;
+      localStorage.setItem('theme', newTheme);
+    }
+
+    // Load user preference on page load
+    window.onload = () => {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.body.className = savedTheme;
+    };
+  </script>
+
+</body>
+</html>
